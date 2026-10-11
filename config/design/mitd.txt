@@ -1,0 +1,4 @@
+# MHC class I trafficking domain (MITD; HLA-class-I transmembrane + cytoplasmic segment) that
+# routes the antigen to the endolysosomal/MHC-II compartment.
+# Provenance: literature-derived example. VERIFY against UniProt (HLA class I) before synthesis.
+IVGIVAGLAVLAVVVIGAVVATVMCRRKSSGGKGGSYSQAASSDSAQGSDVSLTA

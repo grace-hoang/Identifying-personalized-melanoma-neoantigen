@@ -1,0 +1,13 @@
+# Generic bioconda tool image. Built once per tool by scripts/00_build_images.sh
+#   docker build -f docker/Dockerfile.conda \
+#     --build-arg BASE=mambaorg/micromamba:1.5.8 \
+#     --build-arg PACKAGES="fastp=0.23.4" -t melpipe/fastp:local docker/
+ARG BASE=mambaorg/micromamba:1.5.8
+FROM ${BASE}
+ARG PACKAGES
+USER root
+RUN micromamba install -y -n base -c conda-forge -c bioconda ${PACKAGES} \
+ && micromamba clean -a -y
+ENV PATH=/opt/conda/bin:${PATH}
+ENTRYPOINT []
+CMD ["bash"]

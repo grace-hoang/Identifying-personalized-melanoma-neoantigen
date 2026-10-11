@@ -1,0 +1,4 @@
+patient,sample,lane,fastq_1,fastq_2,status
+Patient01,Tumor,1,/home/grace_hoang/Melanoma/FASTQ/SRR3083866_1.fastq.gz,/home/grace_hoang/Melanoma/FASTQ/SRR3083866_2.fastq.gz,1
+Patient01,Normal,1,/home/grace_hoang/Melanoma/FASTQ/SRR3083867_1.fastq.gz,/home/grace_hoang/Melanoma/FASTQ/SRR3083867_2.fastq.gz,0
+Patient01,RNA,,/home/grace_hoang/Melanoma/RNA/SRR3184279_1.fastq.gz,/home/grace_hoang/Melanoma/RNA/SRR3184279_2.fastq.gz,

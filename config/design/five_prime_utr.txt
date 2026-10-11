@@ -1,0 +1,3 @@
+# 5' UTR incl. Kozak (GCCACC) immediately upstream of the start codon. RNA or DNA alphabet accepted.
+# Provenance: commonly used globin-derived example. REPLACE with your validated UTR; verify before synthesis.
+GAAUAAACUAGUAUUCUUCUGGUCCCCACAGACUCAGAGAGAACCCGCCACC

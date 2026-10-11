@@ -1,0 +1,2 @@
+# Pan-DR epitope (PADRE), universal CD4 T-cell helper. Used only if DESIGN_INCLUDE_PADRE=1
+AKFVAAWTLKAAA

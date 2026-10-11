@@ -1,0 +1,3 @@
+# 3' UTR placed after the stop codon and before the poly(A) tail. RNA or DNA alphabet accepted.
+# Provenance: human beta-globin-derived example. REPLACE with your validated UTR; verify before synthesis.
+GCUCGCUUUCUUGCUGUCCAAUUUCUAUUAAAGGUUCCUUUGUUCCCUAAGUCCAACUACUAAACUGGGGGAUAUUAUGAAGGGCCUUGAGCAUCUGGAUUCUGCCUAAUAAAAAACAUUUAUUUUCAUUGC

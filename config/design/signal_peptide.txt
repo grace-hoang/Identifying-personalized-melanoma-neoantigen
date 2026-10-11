@@ -1,0 +1,3 @@
+# N-terminal secretory signal (human tPA signal peptide, commonly used in vaccine constructs).
+# Provenance: literature-derived example. VERIFY against UniProt P00750 before synthesis.
+MDAMKRGLCCVLLLCGAVFVSPS
