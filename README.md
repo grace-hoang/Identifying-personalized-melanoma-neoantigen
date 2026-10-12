@@ -15,7 +15,8 @@ pVACseq (NetMHCpan / MHCflurry) binding predictions → ranked neoantigens → i
    swap=32GB          # safety net for STAR index build
    ```
 2. Docker must work inside WSL (`docker run hello-world`). Keep this repo under `/home/...`, **not** `/mnt/c`.
-3. Edit `config/samplesheet.csv` (already filled with Patient01) and, if you know it, set `TARGET_BED` in `config/config.sh`
+3. Edit `config/samplesheet.csv` using the columns `patient,status,fastq_1,fastq_2`. Use `Tumor`, `Normal`, and `RNA` in
+   `status`; rows for the same patient are grouped automatically. Set `TARGET_BED` in `config/config.sh` if you know it
    (exome kit BED, hg38, `chr`-prefixed). If empty, targets are derived from normal-sample coverage.
 4. `./run.sh setup` — builds 8 local bioconda images, pulls GATK/VEP/pVACtools/bam-readcount images, downloads and indexes
    references (hg38, gnomAD/PoN, GENCODE 46, STAR, Salmon, VEP 112 cache). Resumable; expect 2–4 h and ~100 GB

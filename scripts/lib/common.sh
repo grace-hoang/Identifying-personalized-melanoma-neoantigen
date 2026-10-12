@@ -120,34 +120,40 @@ discard() {
 }
 
 # ----------------------------------------------------------------------------
-# Samplesheet  (patient,sample,lane,fastq_1,fastq_2,status)
+# Samplesheet (patient,status,fastq_1,fastq_2).
 # ----------------------------------------------------------------------------
 declare -a SS_PATIENT=() SS_SAMPLE=() SS_LANE=() SS_FQ1=() SS_FQ2=() SS_STATUS=()
 
 load_samplesheet() {
   [[ -f "$SAMPLESHEET" ]] || die "Samplesheet not found: $SAMPLESHEET"
   SS_PATIENT=(); SS_SAMPLE=(); SS_LANE=(); SS_FQ1=(); SS_FQ2=(); SS_STATUS=()
-  local line first=1 patient sample lane fq1 fq2 status
+  local line first=1 patient status fq1 fq2
+  local -a fields=()
   while IFS= read -r line || [[ -n "$line" ]]; do
     line="${line%$'\r'}"
     if [[ -z "${line//[[:space:],]/}" || "$line" =~ ^[[:space:]]*# ]]; then continue; fi
     if (( first )); then
       first=0
-      if [[ "${line,,}" == patient,* ]]; then continue; fi
+      IFS=',' read -r -a fields <<< "$line"
+      [[ "${fields[*],,}" == "patient status fastq_1 fastq_2" ]] ||
+        die "Samplesheet header must be: patient,status,fastq_1,fastq_2"
+      continue
     fi
-    IFS=',' read -r patient sample lane fq1 fq2 status <<< "$line"
-    patient="$(trim "${patient:-}")"; sample="$(trim "${sample:-}")"; lane="$(trim "${lane:-}")"
-    fq1="$(trim "${fq1:-}")"; fq2="$(trim "${fq2:-}")"; status="$(trim "${status:-}")"
-    case "${sample,,}" in
-      tumor|tumour) sample="Tumor" ;;
-      normal)       sample="Normal" ;;
-      rna|rnaseq|rna-seq|rna_seq) sample="RNA" ;;
-      *) die "Samplesheet: unknown sample type '$sample' (use Tumor, Normal or RNA)" ;;
+    IFS=',' read -r -a fields <<< "$line"
+    (( ${#fields[@]} == 4 )) || die "Samplesheet: expected 4 columns in row: $line"
+    patient="$(trim "${fields[0]:-}")"
+    status="$(trim "${fields[1]:-}")"
+    fq1="$(trim "${fields[2]:-}")"
+    fq2="$(trim "${fields[3]:-}")"
+    case "${status,,}" in
+      tumor|tumour) status="Tumor" ;;
+      normal)       status="Normal" ;;
+      rna|rnaseq|rna-seq|rna_seq) status="RNA" ;;
+      *) die "Samplesheet: unknown status '$status' (use Tumor, Normal or RNA)" ;;
     esac
     [[ -n "$patient" && -n "$fq1" && -n "$fq2" ]] || die "Samplesheet: incomplete row: $line"
-    [[ -z "$lane" ]] && lane=1
     if [[ -n "$PATIENT_FILTER" && "$patient" != "$PATIENT_FILTER" ]]; then continue; fi
-    SS_PATIENT+=("$patient"); SS_SAMPLE+=("$sample"); SS_LANE+=("$lane")
+    SS_PATIENT+=("$patient"); SS_SAMPLE+=("$status"); SS_LANE+=("1")
     SS_FQ1+=("$fq1"); SS_FQ2+=("$fq2"); SS_STATUS+=("$status")
   done < "$SAMPLESHEET"
   (( ${#SS_PATIENT[@]} > 0 )) || die "Samplesheet has no usable rows (patient filter: '${PATIENT_FILTER:-none}')"
