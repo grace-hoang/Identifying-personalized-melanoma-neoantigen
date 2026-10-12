@@ -5,7 +5,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 init_step "00_build_images"
 
 command -v docker >/dev/null 2>&1 || die "docker not found in PATH"
-mkdir -p "$RESULTS_DIR/versions"
 
 for img in "${!LOCAL_IMAGES[@]}"; do
   pkgs="${LOCAL_IMAGES[$img]}"
@@ -19,7 +18,6 @@ for img in "${!LOCAL_IMAGES[@]}"; do
     die "docker build failed for $img (see $CUR_LOG). A package pin may have moved: edit LOCAL_IMAGES in config/config.sh"
   fi
   CUR_LOG=""
-  docker run --rm "$img" micromamba list 2>/dev/null > "$RESULTS_DIR/versions/${img//[\/:]/_}.txt" || true
 done
 
 for img in "$IMG_GATK" "$IMG_VEP" "$IMG_PVAC" "$IMG_BAMRC"; do
